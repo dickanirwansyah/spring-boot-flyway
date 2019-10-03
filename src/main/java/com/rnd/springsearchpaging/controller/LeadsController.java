@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -44,6 +45,15 @@ public class LeadsController {
     public Page<Leads> listLeadsByFirstname3(@RequestParam("firstname")Optional<String> firstname){
         return leadsRepository.findDataLeadsByFirstname(firstname.orElse("_"),
                 new PageRequest(0, 3));
+    }
+
+    @GetMapping(value = "/bb")
+    public Page<Leads> listLeadsByFirstname4(@RequestParam("firstname")Optional<String>firstname,
+                                             @RequestParam("page")Optional<Integer>page,
+                                             @RequestParam("sort")Optional<String>sortBy){
+
+        return leadsRepository.findDataLeadsByFirstname(firstname.orElse("_"),
+                new PageRequest(page.orElse(0), 5, Sort.Direction.ASC, sortBy.orElse("id")));
     }
 }
 
